@@ -203,10 +203,11 @@ func isStreamRequest(body []byte) bool {
  */
 func copyHeaders(dst http.Header, src http.Header) {
 	for key, values := range src {
-		// 跳过 Host 和连接相关头部
+		// 跳过 Host、连接相关头部和 IP 相关头部
 		lowerKey := strings.ToLower(key)
 		if lowerKey == "host" || lowerKey == "connection" ||
-		   lowerKey == "content-length" || lowerKey == "transfer-encoding" {
+		   lowerKey == "content-length" || lowerKey == "transfer-encoding" ||
+		   lowerKey == "x-forwarded-for" || lowerKey == "x-real-ip" {
 			continue
 		}
 		for _, value := range values {
